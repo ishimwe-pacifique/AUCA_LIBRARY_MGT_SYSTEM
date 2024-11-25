@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Membership Type</title>
+   
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+ 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+       
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0f2027, #2c5364, #203a43);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+       
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-container h1 {
+            margin-bottom: 25px;
+            font-size: 2rem;
+            color: #1a73e8;
+        }
+
+      
+        .membership {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .membership:hover {
+            transform: scale(1.05);
+        }
+
+        .membership i {
+            font-size: 50px;
+            color: #ffd700;
+            margin-right: 20px;
+        }
+
+        .membership-info {
+            text-align: left;
+        }
+
+        .membership-info h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #1a73e8;
+        }
+
+        .membership-info p {
+            margin: 8px 0 0;
+            font-size: 1.1rem;
+            color: #b0b3b5;
+        }
+
+      
+        .form-group {
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="number"]:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+            outline: none;
+        }
+
+        .submit-button {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            background-color: #1a73e8;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0px 4px 12px rgba(26, 115, 232, 0.4);
+            transition: background-color 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+        }
+
+        .submit-button:hover {
+            background-color: #1557b0;
+            box-shadow: 0px 6px 14px rgba(26, 115, 232, 0.6);
+        }
+
+        .description {
+            margin-top: 25px;
+            color: #b0b3b5;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <i class="fas fa-user-plus icon"></i>
+        <h1>Create Membership Type</h1>
+        
+       
+        <div class="membership">
+            <i class="fas fa-crown"></i>
+            <div class="membership-info">
+                <h3>Gold Membership</h3>
+                <p>50 Rwf per day, up to 5 books</p>
+            </div>
+        </div>
+        <div class="membership">
+            <i class="fas fa-medal"></i>
+            <div class="membership-info">
+                <h3>Silver Membership</h3>
+                <p>30 Rwf per day, up to 3 books</p>
+            </div>
+        </div>
+        <div class="membership">
+            <i class="fas fa-star"></i>
+            <div class="membership-info">
+            <h3>Striver Membership</h3>
+             <p>10 Rwf per day, up to 2 books</p>
+             </div>
+        </div>
+
+      
+        <form action="createMembershipType" method="post">
+            <div class="form-group">
+                <label for="membershipName">Membership Name:</label>
+                <input type="text" name="membershipName" required>
+            </div>
+            <div class="form-group">
+                <label for="maxBooks">Max Books:</label>
+                <input type="number" name="maxBooks" required>
+            </div>
+            <div class="form-group">
+                <label for="pricePerDay">Price per Day:</label>
+                <input type="number" name="pricePerDay" required>
+            </div>
+            <input type="submit" value="Create Membership Type" class="submit-button">
+        </form>
+        <p class="description">Unlock more knowledge and make your studies easier with AUCA Library’s flexible memberships! Choose the level that fits your needs</p>
+    </div>
+</body>
+</html>

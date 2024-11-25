@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUCA Library Management System</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('images/Library.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+            animation: moveBackground 30s linear infinite; 
+        }
+
+       
+        @keyframes moveBackground {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 50% 50%;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+      
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: 1;
+        }
+
+      
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 100%;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar .logo {
+            width: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.1); 
+        }
+
+       
+        .navbar .links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+      
+        .navbar .links a {
+            color: #ffffffdd;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+       
+        .navbar .links a:hover {
+            background-color: rgba(29, 155, 240, 0.2);
+            color: #1d9bf0;
+        }
+
+        .navbar .links a:active {
+            background-color: rgba(29, 155, 240, 0.3);
+            color: #fff;
+        }
+
+      
+        .main-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-top: 180px;
+            padding: 0 20px;
+        }
+
+        .welcome-message {
+            font-size: 3rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5); 
+            animation: fadeIn 2s ease-in-out;
+            margin-bottom: 30px;
+        }
+
+        .welcome-message p {
+            margin-top: 20px;
+            font-size: 1.4rem;
+            color: #ffffffbb;
+        }
+
+        .start-button {
+            background: linear-gradient(145deg, #1d9bf0, #1986e2);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(29, 155, 240, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(29, 155, 240, 0.5);
+        }
+
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            max-width: 420px;
+            width: 90%;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .modal.active .login-container {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .close-button:hover {
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ffffffaa;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 16px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #1d9bf0;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn {
+            background: linear-gradient(145deg, #1d9bf0, #1986e2);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(145deg, #1986e2, #1d9bf0);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 155, 240, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-message {
+                font-size: 2rem;
+            }
+
+            .welcome-message p {
+                font-size: 1.1rem;
+            }
+
+            .login-container {
+                padding: 30px;
+            }
+        }
+
+      
+        .about-us, .contact-us {
+            padding: 60px 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-us h2, .contact-us h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .about-us p, .contact-us p {
+            font-size: 1.2rem;
+            color: #fff;
+            margin: 10px 0 30px;
+        }
+
+        .about-us .icon, .contact-us .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #1d9bf0;
+        }
+
+       
+        .contact-us .address, .contact-us .hours {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            color: #fff;
+        }
+        
+        
+
+    </style>
+</head>
+<body>
+
+    
+    <div class="navbar">
+        <img src="images/123.png" alt="AUCA Logo" class="logo">
+        <div class="links">
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="createLocation.html">Create Location</a>
+            <a href="createUser.html"><i class="fas fa-user-plus"></i> Sign Up</a>
+            
+        </div>
+    </div>
+
+
+    <div class="main-content">
+        <div class="welcome-message">
+            <h2>Welcome to AUCA Library</h2>
+            <p>Your Gateway to Knowledge and Discovery</p>
+             <p><a href="createLocation.html">Create Location First </a></p>
+        </div>
+        <button class="start-button" onclick="openLoginModal()">
+            <i class="fas fa-sign-in-alt"></i>
+            Get Started
+        </button>
+    </div>
+
+    
+    <div class="about-us" id="about">
+        <div class="icon">
+            <i class="fas fa-book-open"></i>
+        </div>
+        <h2>About Us</h2>
+        
+        <p>The AUCA Library is home to a vast collection of resources for research, education, and leisure reading. We offer a wide range of books, journals, and digital resources to cater to the diverse needs of our students, faculty, and staff.</p>
+        <p>Our library is dedicated to providing a conducive environment for studying, collaboration, and exploration of new ideas. With both physical and digital resources, we ensure that our patrons have access to the materials they need.</p>
+    </div>
+
+   
+    <div class="contact-us" id="contact">
+        <div class="icon">
+            <i class="fas fa-envelope"></i>
+        </div>
+        <h2>Contact Us</h2>
+        <p>If you have any questions or need assistance, feel free to get in touch with us through the form below or reach out via email.</p>
+
+        <form action="submitContactForm" method="post">
+        
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Your Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+
+        <div class="address">
+            <strong>Address:</strong> 123 Library St., AUCA Campus, Rwanda, Kigali
+        </div>
+        <div class="hours">
+            <strong>Working Hours:</strong> Monday - Friday: 9:00 AM - 6:00 PM
+        </div>
+    </div>
+
+   
+    <div class="modal" id="loginModal">
+        <div class="login-container">
+            <button class="close-button" onclick="closeLoginModal()">
+            
+                <i class="fas fa-times"></i>
+            </button>
+            <h1>Login to Access</h1>
+            <form action="login" method="post">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            <div class="links">
+                <a href="createUser.html">Create Account</a> |
+                <a href="forgot-password.jsp">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openLoginModal() {
+            const modal = document.getElementById('loginModal');
+            
+            modal.classList.add('active');
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('loginModal');
+            
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLoginModal();
+            }
+        });
+    </script>
+
+</body>
+</html>

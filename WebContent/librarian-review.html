@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librarian - Borrow Request</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Your existing styles */
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="title">AUCA Library - Borrow Request</div>
+        <a href="librarianhome.html">Home</a>
+        <a href="login.html">Logout</a>
+    </div>
+
+    <div class="container">
+        <h2><i class="fas fa-book"></i> Pending Borrow Requests</h2>
+
+        <div id="requestsContainer">
+            <!-- Dynamic content will be loaded here -->
+        </div>
+
+        <script>
+            // Fetch all pending borrow requests from the server
+            fetch('/get-pending-requests')
+                .then(response => response.json())
+                .then(data => {
+                    const requestsContainer = document.getElementById('requestsContainer');
+                    data.requests.forEach(request => {
+                        const requestDiv = document.createElement('div');
+                        requestDiv.classList.add('request');
+                        requestDiv.innerHTML = `
+                            <p><strong>Borrower's Name:</strong> ${request.borrowerName}</p>
+                            <p><strong>Book Title:</strong> ${request.bookTitle}</p>
+                            <p><strong>Borrow Date:</strong> ${request.borrowDate}</p>
+                            <p><strong>Due Date:</strong> ${request.dueDate}</p>
+                            <p><strong>Charge Fees:</strong> $${request.chargeFees}</p>
+                            <button class="approve" onclick="handleApproval('${request.id}', true)">Approve</button>
+                            <button class="reject" onclick="handleApproval('${request.id}', false)">Reject</button>
+                        `;
+                        requestsContainer.appendChild(requestDiv);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+
+            // Handle approval or rejection
+            function handleApproval(requestId, approved) {
+                fetch('/update-request-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        requestId,
+                        approved
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        location.reload();  // Reload page to update the status
+                    } else {
+                        alert('Failed to update request status.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        </script>
+    </div>
+
+</body>
+</html>

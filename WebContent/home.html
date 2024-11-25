@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUCA Library Management System</title>
+    
+   
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+      
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0f2027, #2c5364, #203a43);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+      
+        .navbar {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar .title {
+            font-size: 1.5rem;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .navbar .hamburger,
+        .navbar .logout-button {
+            font-size: 24px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        .logout-button {
+            background-color: #1557b0; 
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #104a90; 
+        }
+
+       
+        .container {
+            margin-top: 80px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+       
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 250px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #1a73e8;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #b0b3b5;
+        }
+
+        .card button {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #1a73e8;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(26, 115, 232, 0.4);
+            transition: background-color 0.3s ease;
+        }
+
+        .card button:hover {
+            background-color: #1557b0;
+            box-shadow: 0px 6px 12px rgba(26, 115, 232, 0.6);
+        }
+
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transform: translateX(-250px);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar a {
+            color: #ffffff;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #1a73e8;
+        }
+
+      
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div class="navbar">
+        <div class="title">AUCA Library Management</div>
+        <div>
+            <span class="hamburger" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </span>
+            <button class="logout-button" onclick="logout()">Goodbye! See You Soon <i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </div>
+
+  
+    <div class="sidebar" id="sidebar">
+        <a href="book-form.jsp"><i class="fas fa-book"></i> Manage Books</a>
+        <a href="membership-form.jsp"><i class="fas fa-user-plus"></i> Membership</a>
+        <a href="login.html"><i class="fas fa-user-shield"></i> User Login</a>
+        <a href="createLocation.html"><i class="fas fa-map-marked-alt"></i> Locations</a>
+        <a href="borrow-book-form.jsp"><i class="fas fa-calendar-alt"></i> Borrowing & Returns</a>
+        <a href="createRoom.html"><i class="fas fa-door-open"></i> Manage Rooms</a> 
+        <a href="shelfForm.jsp"><i class="fas fa-shelves"></i> Manage Shelves</a>
+        <a href="findLocation.jsp"><i class="fas fa-shelves"></i> Find Location By PhoneNumber</a>
+        <a href="roomBookCount.jsp"><i class="fas fa-shelves"></i> TrackBook in Room</a>
+        <a href="returnBorrower.jsp"><i class="fas fa-shelves"></i> Return&ChargeFees</a> 
+        <a href="approveReject.jsp"><i class="fas fa-shelves"></i> Approve&Reject Membership</a>
+    </div>
+   
+
+   
+    <div class="container">
+        <div class="card">
+            <i class="fas fa-book"></i>
+            <h2>Books</h2>
+            <p>Manage and assign books to shelves.</p>
+            <button onclick="location.href='book-form.jsp'">Manage Books</button>
+        </div>
+
+        <div class="card">
+            <i class="fas fa-user-plus"></i>
+            <h2>Membership</h2>
+            <p>Register new members and assign memberships.</p>
+            <button onclick="location.href='membership-form.jsp'">Manage Memberships</button>
+        </div>
+
+        <div class="card">
+            <i class="fas fa-user-shield"></i>
+            <h2>Authentication</h2>
+            <p>Authenticate users by role.</p>
+            <button onclick="location.href='login.html'">User Login</button>
+        </div>
+
+        <div class="card">
+            <i class="fas fa-map-marked-alt"></i>
+            <h2>Locations</h2>
+            <p>Create and manage location hierarchies.</p>
+            <button onclick="location.href='createLocation.html'">Manage Locations</button> 
+        </div>
+
+        <div class="card">
+            <i class="fas fa-calendar-alt"></i>
+            <h2>Borrowing & Returns</h2>
+            <p>Track borrowed books and apply late fees.</p>
+            <button onclick="location.href='borrow-book-form.jsp'">Manage Borrowing</button>
+        </div>
+
+        <div class="card">
+            <i class="fas fa-door-open"></i>
+            <h2>Rooms</h2>
+            <p>Create and manage room allocations.</p>
+            <button onclick="location.href='createRoom.html'">Manage Rooms</button> 
+        </div>
+
+        <div class="card">
+            <i class="fas fa-shelves"></i> 
+            <h2>Shelves</h2>
+            <p>Create and manage shelves in the library.</p>
+            <button onclick="location.href='shelfForm.jsp'">Manage Shelves</button> 
+        </div>
+    </div>
+
+   
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+
+        function logout() {
+            alert("You have logged out. Come back soon!");
+            window.location.href = "login.html"; // Redirect to login page or homepage
+        }
+    </script>
+
+</body>
+</html>
